@@ -4,7 +4,7 @@
 ## 注意事項
 1. `config/auth.php`にGitHubより発行されたCLIENT_IDとCLIENT_SECRETを入れる必要があります。
 
-2. SQLサーバに`myusers`というデータベースと`users`テーブルを作る必要があります。
+2. SQLサーバに`myusers`というデータベースと`users`テーブルを事前に作る必要があります。
 ```sql
 CREATE TABLE `users` (
    `id` int(11) NOT NULL AUTO_INCREMENT, 
@@ -15,4 +15,4 @@ CREATE TABLE `users` (
    PRIMARY KEY (`id`) 
    );
 ```
-3. Sign up機能がないため、プロファイルを表示する為には改めてユザーのデータをデータベースにInsertしてください。
+3. Sign up機能がないため、プロファイルを表示する為には、予めユザーのデータをデータベースにInsertしてください。
