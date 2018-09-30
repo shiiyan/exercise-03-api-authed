@@ -9,7 +9,9 @@ class LoginController extends Controller
 {
     public function indexAction()
     {
+         $this->view->title = 'Login page';
          $this->view->clientID = CLIENT_ID;
+
     }
 
 }
