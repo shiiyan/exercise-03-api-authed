@@ -45,7 +45,7 @@ $di->set(
                     'compiledPath' => BASE_PATH . '/cache/volt/',
                 ]);
                 $compiler = $volt->getCompiler();
-                $compiler->addFunction('escape', 'htmlentities');
+                $compiler->addFunction('e', 'htmlentities');
                 return $volt;
             }
         ]);
