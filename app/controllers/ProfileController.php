@@ -20,14 +20,7 @@ class ProfileController extends Controller
          if ($user->name !== $name) {
          	return $this->response->setStatusCode(404, 'Not Found');
          }
-        
-         // $user->name = "<a href='www.google.com'>t</a>";
 
-         // escape user input
-         foreach($user as $key=> $value) {
-            $user->$key = htmlentities($value);
-         }
-        
          $this->view->title = 'Profile of ' . $user->name;
          $this->view->user = $user;
     }
