@@ -6,7 +6,8 @@ use Phalcon\Http\Response;
 class ProfileController extends Controller
 {
     public function indexAction()
-    {
+    {       
+
          $user = Users::findFirst([
 			[
 				'conditions' => 'id = ?1',
@@ -19,7 +20,8 @@ class ProfileController extends Controller
          if ($user->name !== $name) {
          	return $this->response->setStatusCode(404, 'Not Found');
          }
-         
+
+         $this->view->title = 'Profile of ' . $user->name;
          $this->view->user = $user;
     }
 

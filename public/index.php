@@ -7,6 +7,7 @@ use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Url as UrlProvider;
 use Phalcon\Di\FactoryDefault;
+use PHalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Session\Adapter\Files as Session;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
@@ -37,6 +38,18 @@ $di->set(
     function () {
         $view = new View();
         $view->setViewsDir(APP_PATH.'/views/');
+        $view->registerEngines([
+            '.volt' => function ($view) {
+                $volt = new VoltEngine($view, $this);
+                $volt->setOptions([
+                    'compiledPath' => BASE_PATH . '/cache/volt/',
+                ]);
+                $compiler = $volt->getCompiler();
+                $compiler->addFunction('e', 'htmlentities');
+                return $volt;
+            }
+        ]);
+
         return $view;
     }
 );
