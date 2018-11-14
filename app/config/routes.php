@@ -2,7 +2,7 @@
 use Phalcon\Mvc\Router;
 
 
-$router = new Router();
+$router = new Router(false);
 
 $router->add(
     '/',
@@ -45,6 +45,37 @@ $router->add(
 
 );
 
+// api routes
+
+$router->addGet(
+    '/api/products',
+    'api::getall'
+);
+
+$router->addGet(
+    '/api/products/search/{name}',
+    'api::getbyname'
+);
+
+$router->addGet(
+    '/api/products/search/{id:[0-9]+}',
+    'api::getbyid'
+);
+
+$router->addPost(
+    '/api/products',
+    'api::add'
+);
+
+$router->addPut(
+    '/api/products/{id:[0-9]+}',
+    'api::updatebyid'
+);
+
+$router->addDelete(
+    '/api/products/{id:[0-9]+}',
+    'api::deletebyid'
+);
 
 
 

@@ -7,7 +7,7 @@ use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Url as UrlProvider;
 use Phalcon\Di\FactoryDefault;
-use PHalcon\Mvc\View\Engine\Volt as VoltEngine;
+use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Session\Adapter\Files as Session;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
@@ -58,7 +58,7 @@ $di->set(
     'url',
     function () {
         $url = new UrlProvider();
-        $url->setBaseUri('/exercise-02-oauth');
+        $url->setBaseUri('/exercise-03-api-authed');
         return $url;
     }
 );

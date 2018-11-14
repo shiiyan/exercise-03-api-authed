@@ -41,7 +41,8 @@ class SecurityPlugin extends Plugin
 		$publicResources = [
 			'index'    => ['index', 'noaccess'],
 			'login'    => ['index'],
-			'callback' => ['index', 'register']
+			'callback' => ['index', 'register'],
+			'api'	   => ['getall', 'getbyname', 'getbyid', 'add', 'updatebyid', 'deletebyid'],
 		];
 
 		foreach ($publicResources as $resourceName => $actions) {
@@ -88,14 +89,21 @@ class SecurityPlugin extends Plugin
 		$controller = $dispatcher->getControllerName();
 		$action 	= $dispatcher->getActionName();
 
+		// var_dump($controller);
+		// var_dump($action);
+
 		$acl = $this->getAcl();
 
 		$allowed = $acl->isAllowed($role, $controller, $action);
 
+		
 		if (!$allowed) {
+
+			/*
 			$this->flash->error(
 				"You don't have access to this module"
 			);
+			*/
 
 			$dispatcher->forward(
 				[
@@ -106,28 +114,8 @@ class SecurityPlugin extends Plugin
 
 			return false;
 		}
+		
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

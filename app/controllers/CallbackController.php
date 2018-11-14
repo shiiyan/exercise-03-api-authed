@@ -2,8 +2,10 @@
 
 use Phalcon\Mvc\Controller;
 use Phalcon\Http\Response;
+use \Firebase\JWT\JWT;
 
 require __DIR__.'/../config/auth.php';
+require __DIR__ . '/../../vendor/autoload.php'; // !!
 
 class CallbackController extends Controller
 {
@@ -17,6 +19,30 @@ class CallbackController extends Controller
     		]
     	);
     }
+
+    /*
+    private function test()
+    {
+    	echo "TTTTTT!!!";
+    }
+	*/
+
+    private function _generateJWT($user)
+    {
+    	$key = JWT_SECRET;
+    	$issuedAt = time();
+    	$expirationTime = $issuedAt + 2 * 60; // valid for 2 minutes from iat
+    	$payload = array(
+    		'username' => $user->name,
+    		'iat' => $issuedAt,
+    		'exp' => $expirationTime,
+    	);
+    	$alg = 'HS256';
+    	$jwt = JWT::encode($payload, $key, $alg);
+
+    	return $jwt;
+    }
+
 
     public function indexAction()
     {
@@ -46,7 +72,7 @@ class CallbackController extends Controller
 
 		if ($result) {
 			$tmp = json_decode($result);
-			# var_dump($tmp);
+			var_dump($tmp);
 			if (array_key_exists('error', $tmp)) {
 				return json_encode(['status' => 'ERROR', 'messages' => $tmp]);
 			} else {
@@ -73,7 +99,8 @@ class CallbackController extends Controller
 			);
 			$context  = stream_context_create($options);
 			$auth_result = json_decode(file_get_contents($url_user.'?'.$query, false, $context));
-			# var_dump($auth_result);
+			// $this->test();
+			// var_dump($auth_result);
 		}
 		# checks whether the user is in the database
 		$user = Users::findFirst([
@@ -83,19 +110,26 @@ class CallbackController extends Controller
 			]
 
 		 ]);
-
+		
 		if ($user !== false) {
 			$this->_registerSession($user);
 
-			return $this->response->redirect('/profile/'.$user->name);
+			// generates JWT token and save it to DB.
+			$token = $this->_generateJWT($user);
+			if ($user->save(['token' => $token])) {
+				return $this->response->redirect('/profile/'.$user->name);
+			}
 
 		}
 
+		/* 
+		// check later...
 		$this->flash->error(
 			'User does not exist'
 		);
+		*/
 
-		return $this->response->redirect('/login');
+		return $this->response->redirect('/login'); 
 	}
 
 	public function endsessionAction() 

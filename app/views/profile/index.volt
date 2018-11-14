@@ -12,6 +12,7 @@
 	  <li>Name: {{ user.name|e }}</li>
 	  <li>URL: {{ user.html_url|e }}</li>
 	  <li>Avatar: <img src="{{ user.avatar_url|e }}" alt="Avatar" height="42" width="42"></li>
+	  <li>Bearer Token: {{ user.token }}</li>
 	</ul>
 </div>
 

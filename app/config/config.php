@@ -6,7 +6,7 @@ $Pdo =  new PdoMysql(
             'host' => 'localhost',
             'username' => 'root',
             'password' => '',
-            'dbname' => 'myusers'
+            'dbname' => 'ex03'
         ]
     );
 
